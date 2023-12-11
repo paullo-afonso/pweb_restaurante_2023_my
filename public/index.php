@@ -3,6 +3,6 @@
 require_once('../app/application.php');
 use Core\View;
 
-$tela = new View('','../app/Templates/main.php');
+$tela = new View('produtos.produtos','main');
 $tela->show();
 
