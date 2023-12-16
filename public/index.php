@@ -14,11 +14,17 @@ if(isset($_GET['url'])){
 
 
 $router = Router::getRouterByUrl($url);
+
+pre($router);
+
 if($router){
     $controller = $router->getController();
-    $action = $router->getAction();
-    $controller = new $controller();
-    $controller->$action();
+    call_user_func_array(
+        [
+            new $controller,
+            $router->getAction()
+        ],
+        array_values($router->getParameteres()));
 }else{
     die('Page 404');
 }
