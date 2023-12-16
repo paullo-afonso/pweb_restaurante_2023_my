@@ -15,7 +15,10 @@
                 </div>
               </div>
               <div class="card-body">
-                Tela de Produtos
+                Tela de Produtos <?=$nome?>
+                <p>
+                  Valor: <?=$valor?>
+                </p>
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
