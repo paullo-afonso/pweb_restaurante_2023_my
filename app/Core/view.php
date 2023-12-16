@@ -10,7 +10,7 @@
 
     private $template;
 
-    public function __construct($view,$template){
+    public function __construct($view,$template = TEMPLATES_DEFAULT){
         $this->view = $view;
         $this->template = $template;
     }

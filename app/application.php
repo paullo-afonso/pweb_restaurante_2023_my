@@ -5,4 +5,5 @@
  */
 
  require_once('Configs/constantes.php');
- require_once('../app/Core/view.php');
+ require_once(COMPOSER_PATH. '/autoload.php');
+
