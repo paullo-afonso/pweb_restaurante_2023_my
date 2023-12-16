@@ -26,7 +26,7 @@ class Router{
 
     private function __construct($url, $controller, $action, $method)
     {
-        $this->url = $url;
+        $this->url = (substr($url,0,1) == '/') ? substr_replace($url, '', 0, 1):$url;
         $this->controller = $controller;
         $this->action = $action;
         $this->method = $method;
@@ -37,11 +37,30 @@ class Router{
         }
     }
 
-    private static function get($url, $controller, $action = 'index'){
+    public static function get($url, $controller, $action = 'index'){
         return new Router($url, $controller, $action, 'GET');
     }
-    private static function post($url, $controller, $action = 'index'){
+    public static function post($url, $controller, $action = 'index'){
         return new Router($url, $controller, $action, 'POST');
+    }
+
+    public static function getRouterByUrl($url, $method="GET"){
+        $url = (substr($url,0,1) == '/') ? substr_replace($url, '', 0, 1):$url;
+        $routers = ($method == "GET") ? self::$get : self::$post;
+        foreach($routers as $router){
+            if($router->url == $url){
+                return $router;
+            }
+        }
+        return false;
+    }
+
+    public function getController(){
+        return $this->controller;
+    }
+
+    public function getAction(){
+        return $this->action;
     }
 
 }
