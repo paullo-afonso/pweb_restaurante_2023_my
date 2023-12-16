@@ -15,7 +15,6 @@ if(isset($_GET['url'])){
 
 $router = Router::getRouterByUrl($url);
 
-pre($router);
 
 if($router){
     $controller = $router->getController();
@@ -28,3 +27,6 @@ if($router){
 }else{
     die('Page 404');
 }
+
+
+
