@@ -38,15 +38,17 @@ abstract class Model{
         $conn = Connection::getInstance();
         $stm = $conn->prepare($sql);
         $stm->execute($data);
-        $result = $stm->fetch(\PDO::FETCH_ASSOC);
-        if($result){
-            $this->__data = $result;
-        }
+        return $stm;
+        
     }
 
     private function load($id){
         $this->where($this->pk,'=',$id);
         $stm = $this->select();
+        $result = $stm->fetch(\PDO::FETCH_ASSOC);
+        if($result){
+            $this->__data = $result;
+        }
 
     }
 
@@ -93,13 +95,11 @@ abstract class Model{
     }
 
     public function all()
-    //SELECT * FROM tabela;
     {
         
         return $this->select()->fetchAll(\PDO::FETCH_CLASS,get_class($this));
     }
     public function get()
-    //SELECT * FROM tabela;
     {
         return $this->select()->fetchObject(get_class($this));
     }
