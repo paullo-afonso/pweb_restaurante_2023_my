@@ -1,11 +1,11 @@
 <?php
 
-require_once('../app/application.php');
-use Controllers\Home;
-use Core\Router;
 
-$router = Router::getRouterByController(\Controllers\Produtos::class,'produto','GET',[5,'Água Mineral']);
-if($router){
-    pre(APPLICATION_URL.'/'.$router->getUrl());
-}
-pre($router); 
+
+require_once('../app/application.php');
+
+use Core\Connection;
+$conn = Connection::getInstance();
+$stm = $conn->prepare('SHOW TABLES');
+$stm->execute();
+pre($stm->fetchALL());
