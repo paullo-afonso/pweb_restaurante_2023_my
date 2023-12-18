@@ -5,16 +5,16 @@ use Models\Produto;
 
 require_once('../app/application.php');
 
-$config = new Config(7);
-$config->name = 'Professor';
-$config->save(['name'=>'Desenvolvedor Principal','value'=>'Paulo Afonso']);
+$model = new Produto(1);
+// $config->save(['name'=>'Root_User','value'=>'Paulo']);
+// $model->delete();
 
-all($config->where('value','like','Paul%')); 
+all($model); 
 
 function all($model){
     $configs = $model->all();
     array_walk($configs, function ($config) {
-    echo $config->id. " | " . $config->name . " | " .$config->value. "<hr>";
+    echo $config->id. " | " . $config->nome . " | " .$config->valor_un. "<hr>";
     });
 }
 

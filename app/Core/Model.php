@@ -21,10 +21,15 @@ abstract class Model{
 
     private $__storage = false;
 
+    protected $__protected_delete = false;
+
+    private $__protected_delete_column = 'exclusao_data';
+
     public function __construct($id = null){
-        if(isset($id))
+        if(isset($id)){
         $this->load($id);
     }
+}
     public function __set(string $name, $value){
         if(in_array($name,$this->columns)){
             $this->__data[$name] = $value;
@@ -109,12 +114,15 @@ abstract class Model{
     public function delete()
     {
         if($this->__storage){
-            $sql = "DELETE FROM $this->table WHERE $this->pk = :$this->pk;";
-            $this->query($sql, [$this->pk => $this->{$this->pk}]);
+            if($this->__protected_delete){
+                $this->update([$this->__protected_delete_column => date('Y-m-d H:i:s')]);
+            }else{
+                $sql = "DELETE FROM $this->table WHERE $this->pk = :$this->pk;";
+                $this->query($sql, [$this->pk => $this->{$this->pk}]);
+            }
             $this->__storage = false;
             return true;
         }
-        
         return false;
     }
 
@@ -157,13 +165,22 @@ abstract class Model{
         $where = '';
         $data = [];
         if(count($this->where)>0){
-            $this->where[0][0] = 'WHERE';
+            $this->where[0][0] = '';
             foreach($this->where as $key => $w){
                 $where .= " $w[0] $w[1] $w[2] :w$key";
                 $data["w$key"] = $w[3];
             }
             $this->where = [];
         }
-        return [$where,$data];
+        if($this->__protected_delete){
+            if(empty($where)){
+                $where = " WHERE $this->__protected_delete_column IS NULL";
+            }else{
+                $where = " WHERE ($this->__protected_delete_column IS NULL) AND ($where)";
+            }
+        }else if(!empty($where)){
+            $where = " WHERE $where";
+        }
+        return [$where, $data];
     }
 }
