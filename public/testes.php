@@ -5,11 +5,13 @@ use Models\Produto;
 
 require_once('../app/application.php');
 
-$model = new Produto(1);
+$model = new Produto(2);
+// $model->valor_un = 15;
+// $model->save();
 // $config->save(['name'=>'Root_User','value'=>'Paulo']);
 // $model->delete();
 
-all($model); 
+pre($model->getData()); 
 
 function all($model){
     $configs = $model->all();
