@@ -40,9 +40,14 @@
         return (isset($this->data[$name]))?$this->data[$name]:null;
     }
 
+    private function getTemplateConfigs(){
+        return Configs::getConfig('templates');
+    }
+
     public function show($data = []){
         $data = array_merge($this->data, $data);
         extract($data);
+        $template = $this->getTemplateConfigs();
         ob_start();
         require $this->createStringRequireView();
         $view = ob_get_clean();
